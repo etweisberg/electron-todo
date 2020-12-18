@@ -12,7 +12,7 @@ function createWindow() {
     },
   });
 
-  // and load the index.html of the app.
+  //Load htm into window
   mainWindow.loadURL(
     url.format({
       pathname: path.join(__dirname, "mainWindow.html"),
@@ -20,17 +20,18 @@ function createWindow() {
       slashes: true,
     })
   );
-  mainWindow.on('closed',function(){
+  //Close app on main window closed
+  mainWindow.on("closed", function () {
     app.quit();
-  })
+  });
 }
 
 //Handle add item menu option
-function createAddWindow(){
+function createAddWindow() {
   const addWindow = new BrowserWindow({
     width: 300,
     height: 200,
-    title:"Add List Item"
+    title: "Add List Item",
   });
 
   // and load the index.html of the app.
@@ -41,9 +42,13 @@ function createAddWindow(){
       slashes: true,
     })
   );
+  //Garbage collection handle
+  addWindow.on("close", function () {
+    addWindow = null;
+  });
 }
 
-app.whenReady().then(() => {
+app.whenReady().then(function() {
   createWindow();
 
   app.on("activate", function () {
@@ -67,9 +72,9 @@ const mainMenuTemplate = [
     submenu: [
       {
         label: "Add Item",
-        click(){
+        click() {
           createAddWindow();
-        }
+        },
       },
       {
         label: "Clear Items",
@@ -84,3 +89,26 @@ const mainMenuTemplate = [
     ],
   },
 ];
+
+//if mac add empty object to menu
+if (process.platform == "darwin") {
+  mainMenuTemplate.unshift({});
+}
+
+//Add developer tools item if not in production
+if (process.env.NODE_ENV !== "production") {
+  mainMenuTemplate.push({
+    label: "Dev Tools",
+    submenu: [
+      {
+        label: "Toggle Dev Tools",
+        click(item, focusedWindow) {
+          focusedWindow.toggleDevTools();
+        },
+      },
+      {
+        role: 'reload'
+      }
+    ],
+  });
+}
