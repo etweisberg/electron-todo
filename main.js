@@ -28,7 +28,7 @@ function createWindow() {
 
 //Handle add item menu option
 function createAddWindow() {
-  const addWindow = new BrowserWindow({
+  let addWindow = new BrowserWindow({
     width: 300,
     height: 200,
     title: "Add List Item",
