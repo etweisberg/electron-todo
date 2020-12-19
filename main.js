@@ -10,6 +10,9 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+    },
   });
 
   //Load htm into window
@@ -107,6 +110,7 @@ if (process.env.NODE_ENV !== "production") {
   });
 }
 
+//when ready run electron app
 app.whenReady().then(function () {
   createWindow();
 
