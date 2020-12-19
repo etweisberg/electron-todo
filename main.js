@@ -56,7 +56,6 @@ function createAddWindow() {
 
 //Catch item add
 ipcMain.on("item:add", function (e, item) {
-  console.log(item);
   mainWindow.webContents.send("item:add", item);
   addWindow.close();
 });
@@ -75,6 +74,11 @@ const mainMenuTemplate = [
       },
       {
         label: "Clear Items",
+        accelerator:
+          process.platform == "darwin" ? "Command+Backspace" : "Ctrl+Backspace",
+        click() {
+          mainWindow.webContents.send("item:clear");
+        },
       },
       {
         label: "Quit",
