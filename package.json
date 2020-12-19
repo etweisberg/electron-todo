@@ -1,22 +1,23 @@
 {
-  "name": "electron-quick-start",
+  "name": "to-do-list",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dist:linux": "electron-builder --linux"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
-  ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "author": "Ethan Weisberg <eiweisberg.2718@gmail.com>",
   "devDependencies": {
-    "electron": "^11.1.0"
+    "electron": "^11.1.0",
+    "electron-builder": "^22.9.1"
+  },
+  "build": {
+    "appId": "com.ethan.to-do-list",
+    "linux": {
+      "target": [
+        "deb"
+      ],
+      "category": "Utility"
+    }
   }
 }

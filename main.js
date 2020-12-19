@@ -5,6 +5,9 @@ const url = require("url");
 let mainWindow;
 let addWindow;
 
+//SET ENVIRONMENT
+process.env.NODE_ENV = 'production';
+
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
