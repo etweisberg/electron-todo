@@ -1,15 +1,15 @@
-const { app, BrowserWindow, Menu } = require("electron");
+const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 const path = require("path");
 const url = require("url");
 
+let mainWindow;
+let addWindow;
+
 function createWindow() {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
-    },
   });
 
   //Load htm into window
@@ -28,10 +28,13 @@ function createWindow() {
 
 //Handle add item menu option
 function createAddWindow() {
-  let addWindow = new BrowserWindow({
+  addWindow = new BrowserWindow({
     width: 300,
     height: 200,
     title: "Add List Item",
+    webPreferences: {
+      nodeIntegration: true,
+    },
   });
 
   // and load the index.html of the app.
@@ -48,21 +51,11 @@ function createAddWindow() {
   });
 }
 
-app.whenReady().then(function() {
-  createWindow();
-
-  app.on("activate", function () {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  });
-
-  //Build menu from template
-  const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
-  //Insert menu
-  Menu.setApplicationMenu(mainMenu);
-});
-
-app.on("window-all-closed", function () {
-  if (process.platform !== "darwin") app.quit();
+//Catch item add
+ipcMain.on("item:add", function (e, item) {
+  console.log(item);
+  mainWindow.webContents.send("item:add", item);
+  addWindow.close();
 });
 
 //Menu template
@@ -72,6 +65,7 @@ const mainMenuTemplate = [
     submenu: [
       {
         label: "Add Item",
+        accelerator: process.platform == "darwin" ? "Command+N" : "Ctrl+N",
         click() {
           createAddWindow();
         },
@@ -107,8 +101,25 @@ if (process.env.NODE_ENV !== "production") {
         },
       },
       {
-        role: 'reload'
-      }
+        role: "reload",
+      },
     ],
   });
 }
+
+app.whenReady().then(function () {
+  createWindow();
+
+  app.on("activate", function () {
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  });
+
+  //Build menu from template
+  const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
+  //Insert menu
+  Menu.setApplicationMenu(mainMenu);
+});
+
+app.on("window-all-closed", function () {
+  if (process.platform !== "darwin") app.quit();
+});
