@@ -6,7 +6,7 @@ let mainWindow;
 let addWindow;
 
 //SET ENVIRONMENT
-// process.env.NODE_ENV = 'production';
+process.env.NODE_ENV = 'production';
 
 function createWindow() {
   // Create the browser window.
