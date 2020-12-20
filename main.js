@@ -11,8 +11,8 @@ process.env.NODE_ENV = 'production';
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1024,
+    height: 768,
     webPreferences: {
       nodeIntegration: true,
     },
@@ -35,8 +35,8 @@ function createWindow() {
 //Handle add item menu option
 function createAddWindow() {
   addWindow = new BrowserWindow({
-    width: 300,
-    height: 200,
+    width: 600,
+    height: 400,
     title: "Add List Item",
     webPreferences: {
       nodeIntegration: true,
