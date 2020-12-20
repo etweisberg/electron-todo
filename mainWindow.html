@@ -10,39 +10,10 @@
   <body>
     <nav>
       <div class="nav_wrapper">
-        <a class="brand-logo center">New List</a>
+        <a class="brand-logo center">List</a>
       </div>
     </nav>
     <ul></ul>
-    <script>
-      const electron = require("electron");
-      const { ipcRenderer } = electron;
-      const ul = document.querySelector("ul");
-
-      //catch add item
-      ipcRenderer.on("item:add", function (e, item) {
-        ul.className = "collection";
-        const li = document.createElement("li");
-        li.className = "collection-item";
-        const itemText = document.createTextNode(item);
-        li.appendChild(itemText);
-        ul.appendChild(li);
-      });
-
-      //catch clear items
-      ipcRenderer.on("item:clear", function (e) {
-        ul.innerHTML = "";
-        ul.className = "";
-      });
-
-      //Remove item
-      ul.addEventListener("dblclick", removeItem);
-      function removeItem(e) {
-        e.target.remove();
-        if (ul.children.length === 0) {
-          ul.className = "";
-        }
-      }
-    </script>
+    <script src='list.js'></script>
   </body>
 </html>

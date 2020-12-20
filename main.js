@@ -6,7 +6,7 @@ let mainWindow;
 let addWindow;
 
 //SET ENVIRONMENT
-process.env.NODE_ENV = 'production';
+// process.env.NODE_ENV = 'production';
 
 function createWindow() {
   // Create the browser window.
@@ -58,8 +58,8 @@ function createAddWindow() {
 }
 
 //Catch item add
-ipcMain.on("item:add", function (e, item) {
-  mainWindow.webContents.send("item:add", item);
+ipcMain.on("item:add", function (e, item, date) {
+  mainWindow.webContents.send("item:add", item, date);
   addWindow.close();
 });
 
